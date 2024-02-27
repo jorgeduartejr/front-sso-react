@@ -1,8 +1,11 @@
 import React from 'react'
+import NewUserForm from '../components/NewUserForm/NewUserForm'
 
 const NewUser = () => {
   return (
-    <div>NewUser</div>
+    <div>
+      <NewUserForm />
+    </div>
   )
 }
 

@@ -14,10 +14,11 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url(./components/Assets/vemidentidade.png) no-repeat;
+  /* background: url(./components/Assets/vemidentidade.png) no-repeat; */
+  background-color: black;
   background-size: cover;
   background-position: center;
-  
+
 
 }
 
