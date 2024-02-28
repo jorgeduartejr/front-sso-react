@@ -1,65 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './NewUserForm.css';
-import { FaUser,FaLock} from "react-icons/fa";
-import { MdDateRange,MdEmail,MdNumbers } from "react-icons/md";
-
+import { FaUser, FaLock } from "react-icons/fa";
+import { MdDateRange, MdEmail, MdNumbers } from "react-icons/md";
+import axios from 'axios';
 
 const NewUserForm = () => {
+  const [fullName, setFullName] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [email, setEmail] = useState('');
+  const [registrationNumber, setRegistrationNumber] = useState('');
+  const [zbrm, setZbrm] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (event) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://example.com/api/register', {
+        fullName,
+        birthDate,
+        email,
+        registrationNumber,
+        zbrm,
+        password,
+        confirmPassword
+      });
+      console.log('Resposta da API:', response.data);
+      // Se necessário, redirecione o usuário para a página desejada após o registro bem-sucedido
+    } catch (error) {
+      setError('Erro ao criar novo usuário. Verifique os dados inseridos.');
+      console.error('Erro ao criar novo usuário:', error);
+    }
+  };
+
   return (
     <div className='wrapper'>
-        <form action="">
+      <form onSubmit={handleSubmit}>
         <h1>Criar novo usuário</h1>
         <div className="input-box">
-            <input type='text' placeholder='Nome Completo' required/>
-            <FaUser className='icon'/>
+          <input type='text' placeholder='Nome Completo' value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+          <FaUser className='icon' />
         </div>
         <div className="input-box">
-            <input type='date' placeholder='Data de Nascimento' required/>
-            <MdDateRange className='icon'/>
+          <input type='date' placeholder='Data de Nascimento' value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required />
+          <MdDateRange className='icon' />
         </div>
 
         <div className="input-box">
-            <input type='email' placeholder='Email' required/>
-            <MdEmail className='icon'/>
-            
+          <input type='email' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <MdEmail className='icon' />
         </div>
 
         <div className="input-box">
-            <input type='number' placeholder='Matrícula' required/>
-            <MdNumbers className='icon'/>
-            
+          <input type='number' placeholder='Matrícula' value={registrationNumber} onChange={(e) => setRegistrationNumber(e.target.value)} required />
+          <MdNumbers className='icon' />
         </div>
 
         <div className="input-box">
-            <input type='number' placeholder='ZBRM' required/>
-            <MdNumbers className='icon'/>
-            {/* trocar icone */}
+          <input type='number' placeholder='ZBRM' value={zbrm} onChange={(e) => setZbrm(e.target.value)} required />
+          <MdNumbers className='icon' />
         </div>
 
         <div className="input-box">
-            <input type='password' placeholder='Senha' required/>
-            <FaLock className='icon' />
+          <input type='password' placeholder='Senha' value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <FaLock className='icon' />
         </div>
 
         <div className="input-box">
-            <input type='password' placeholder='Confirme a Senha' required/>
-            <FaLock className='icon' />
+          <input type='password' placeholder='Confirme a Senha' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+          <FaLock className='icon' />
         </div>
 
-        {/* <div className='remember-forgot'>
-            <label><input type='checkbox'/>Remember me</label>
-            <a href='#'>Forgot Password?</a>
-        </div> */}
+        {error && <div style={{ color: 'red' }}>{error}</div>}
 
         <button type='submit'>Criar Usuário</button>
 
-        {/* <div className='register-link'>
-            <p>Don't have an account? <a href='#'>Register</a></p>
-        </div> */}
-
-        </form>
+      </form>
     </div>
   )
 }
 
-export default NewUserForm
+export default NewUserForm;

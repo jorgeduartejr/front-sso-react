@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import "./App.css";
 import "./index.css";
 import { AuthProvider } from "./contexts/Auth/AuthProvider";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <div className="container">
             <Outlet />
           </div>
+          <Footer />
           </>
       </div>
   );

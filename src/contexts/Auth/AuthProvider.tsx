@@ -2,6 +2,7 @@ import { AuthContext } from "./AuthContext";
 import { User } from "../../types/User";
 import { useState } from "react";
 import { useApi } from "../../hooks/useApi";
+import { set } from "firebase/database";
 
 
 export const AuthProvider = ({children}: {children: JSX.Element}) => {
@@ -9,17 +10,29 @@ export const AuthProvider = ({children}: {children: JSX.Element}) => {
     const api = useApi();
 
     const signin = async (email: string, password: string) => {
-        const data = await api.signin(email, password);
-        if (data.user && data.token){
-            setUser(data.user);
+        try{
+            const response = await api.signin(email, password);
+            const { user, token}    = response.data;
+            setUser(user);
+            localStorage.setItem('token', token);
             return true;
+        }catch(error){
+            console.error(error);
+            return false;
         }
-        return false;
-    }
+
+
+    
+    };
 
     const signout = async () => {
-        await api.logout();
-        setUser(null);
+        try{
+            await api.logout();
+            setUser(null);
+            localStorage.removeItem('token');
+        } catch(error){
+            console.error('Erro ao fazer logout',error);
+        }
     }
 
     return (
